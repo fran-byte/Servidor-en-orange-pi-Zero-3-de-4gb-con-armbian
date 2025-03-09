@@ -6,8 +6,10 @@ oizero3 1GB2GB. 	Servidor de debian12  https://github.com/leeboby/armbian-images
 
 # Descargar los archivos archivos necesarios para instalar un bootloader y el árbol de dispositivos (DTB) :
 OPi Zero3 1.5gb-4g.
+
 4g.u-boot.bin: 4gb.u-boot.bin. https://github.com/leeboby/opizero3-uboot-kernel/blob/main/u-boot-sunxi-with-spl-opizero3-4gb.bin
 4gb.dtb.: 4gb.dtb.  https://github.com/leeboby/opizero3-uboot-kernel/blob/main/sun50i-h616-orangepi-zero3-4gb.dtb
+
 Vamos a seguir los pasos correctos para preparar la tarjeta SD para tu **Orange Pi Zero 3** con **4GB de RAM** usando la imagen de **Armbian** y los archivos de **U-Boot** y **DTB**. de los repositorios:
 https://github.com/leeboby/armbian-images
 
