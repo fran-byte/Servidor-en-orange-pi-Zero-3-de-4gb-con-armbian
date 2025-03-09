@@ -104,3 +104,77 @@ Una vez que hayas copiado los archivos y actualizado el bootloader:
 2. **Coloca la tarjeta SD en tu Orange Pi Zero 3** y enciéndelo.
 
 ¡Listo! Ahora deberías poder arrancar tu **Orange Pi Zero 3** con **4GB de RAM** utilizando la imagen de Armbian y los archivos de configuración correctos para **4GB de RAM**.
+
+
+# Arrancando el sistema
+
+## Si no deseas conectar un monitor configuraremos a traves de SSH desde nuestro PC
+
+---
+
+### **1. Configurar la conexión de red (Wi-Fi o Ethernet)**
+- **Si usas Ethernet**: Conecta la Orange Pi a tu router con un cable. Obtendrá IP automáticamente (DHCP).
+- **Si usas Wi-Fi**:
+  1. Inserta la tarjeta microSD en tu computadora.
+  2. En la partición `boot` (primera partición), crea un archivo llamado `wpa_supplicant.conf` con este contenido:
+     ```conf
+     ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+     update_config=1
+     country=TU_CODIGO_PAIS (ej: ES, MX, AR)
+
+     network={
+         ssid="NOMBRE_RED_WIFI"
+         psk="CONTRASEÑA_WIFI"
+         key_mgmt=WPA-PSK
+     }
+     ```
+  3. Guarda el archivo y extrae la tarjeta SD.
+
+---
+
+### **2. Obtener la IP de la Orange Pi**
+- **Opción A (Recomendada)**: Revisa la lista de dispositivos conectados en tu router (busca "Orange Pi" o direcciones MAC que empiecen con `02:81` o similar).
+- **Opción B**: Usa un escáner de IP en tu computadora:
+  - **Linux/macOS**: 
+    ```bash
+    nmap -sn 192.168.1.0/24 # Ajusta la red según tu router
+    ```
+
+---
+
+### **3. Conectar por SSH**
+- **Usuario y contraseña predeterminados** de Armbian:
+  - Usuario: `root` / Contraseña: `1234` (te pedirá cambiarla en el primer login).
+  - Otra opción: `orangepi`/`orangepi` (depende de la imagen).
+  
+  ```bash
+  ssh root@IP_DE_LA_ORANGE_PI
+  ```
+  Ejemplo:
+  ```bash
+  ssh root@192.168.1.144
+  ```
+
+---
+
+### **4. Solucionar problemas comunes**
+- **"Connection refused"**: Asegúrate de que el servicio SSH está activo. Crea un archivo vacío llamado `ssh` en la partición `boot` de la SD.
+- **"Password incorrecto"**: Si no funciona `1234`, prueba con `orangepi` o revisa la documentación de tu imagen de Armbian.
+- **No encuentra la IP**: Usa el comando `ping orangepi.local` (si tu red soporta mDNS).
+
+---
+
+### **5. Configuraciones posteriores (opcional)**
+- **Cambiar contraseña**: Obligatorio tras el primer login.
+- **Crear un usuario nuevo**:
+  ```bash
+  adduser nombre_usuario
+  usermod -aG sudo nombre_usuario
+  ```
+- **Habilitar acceso sin contraseña (SSH Keys)**:
+  ```bash
+  ssh-copy-id nombre_usuario@IP_DE_LA_ORANGE_PI
+  ```
+
+---
+# Instalanado servidor 
