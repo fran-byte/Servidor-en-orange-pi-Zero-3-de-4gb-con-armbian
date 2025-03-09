@@ -59,8 +59,6 @@ Luego, graba la imagen con **`dd`**: Importante Modifica sdb (por tu unidad, si 
 sudo dd if=Armbian_23.08.0-trunk_Orangepizero3_bookworm_current_6.1.31-1GB-2GB.img of=/dev/sdb bs=4M status=progress conv=fsync
 ```
 
-Reemplaza **`/dev/sdX`** por el dispositivo correcto (por ejemplo, `/dev/sdb`).
-
 ### Paso 3: Montar la tarjeta SD y copiar los archivos de configuración
 
 Una vez que la imagen esté grabada en la tarjeta SD, **monta la partición de arranque** para copiar los archivos de **U-Boot** y **DTB**.
