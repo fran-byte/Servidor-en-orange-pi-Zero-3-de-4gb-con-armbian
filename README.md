@@ -10,7 +10,7 @@ Vamos a seguir los pasos correctos para preparar la tarjeta SD para tu Orange Pi
 - Debian con xfce
 - Debian server
 
-### Además de el bootloader tanto para versiones
+### Además de el bootloader y el árbol de dispositivos (DTB) tanto para versiones
 
 - 1.5Gb a 3Gb
 - 4Gb
