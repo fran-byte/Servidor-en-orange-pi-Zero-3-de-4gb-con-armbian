@@ -35,7 +35,8 @@ OPi Zero3 1.5gb-4g.
 
 4gb.dtb.: 4gb.dtb.
 
-https://github.com/leeboby/opizero3-uboot-kernel/blob/main/sun50i-h616-orangepi-zero3-4gb.dtb
+<a href="https://github.com/leeboby/opizero3-uboot-kernel/blob/main/sun50i-h616-orangepi-zero3-4gb.dtb"><img width="10%" src="img/dbt.png"></a>
+
 
 
 
