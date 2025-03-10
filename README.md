@@ -194,4 +194,92 @@ Ahora deberías poder arrancar tu **Orange Pi Zero 3** utilizando la imagen de *
   ```
 
 ---
-# Instalanado servidor 
+# Instalanado servidor Nginx y una base de datos
+
+### Instalación de Nginx
+
+1. **Actualizar el sistema**:
+   ```sh
+   sudo apt-get update
+   ```
+
+2. **Instalar Nginx**:
+   ```sh
+   sudo apt-get install nginx
+   ```
+
+3. **Iniciar el servicio de Nginx**:
+   ```sh
+   sudo systemctl start nginx
+   ```
+
+4. **Verificar la instalación**:
+   - Abre tu navegador web e introduce la dirección IP de tu servidor. Deberías ver la página de bienvenida de Nginx.
+
+5. **Habilitar Nginx para que se inicie automáticamente**:
+   ```sh
+   sudo systemctl enable nginx
+   ```
+
+### Instalación de MariaDB
+
+1. **Instalar MariaDB**:
+   ```sh
+   sudo apt-get install mariadb-server
+   ```
+
+2. **Iniciar el servicio de MariaDB**:
+   ```sh
+   sudo systemctl start mariadb
+   ```
+
+3. **Habilitar MariaDB para que se inicie automáticamente**:
+   ```sh
+   sudo systemctl enable mariadb
+   ```
+
+4. **Configurar MariaDB**:
+   - Ejecuta el siguiente comando para asegurar la instalación:
+   ```sh
+   sudo mysql_secure_installation
+   ```
+
+### Configuración de Nginx para usar MariaDB
+
+1. **Instalar PHP y módulos necesarios**:
+   ```sh
+   sudo apt-get install php-fpm php-mysql
+   ```
+
+2. **Configurar Nginx para usar PHP**:
+   - Edita el archivo de configuración de Nginx:
+   ```sh
+   sudo nano /etc/nginx/sites-available/default
+   ```
+   - Añade las siguientes líneas dentro del bloque `server`:
+   ```nginx
+   location ~ \.php$ {
+       include snippets/fastcgi-php.conf;
+       fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+   }
+   ```
+
+3. **Reiniciar Nginx**:
+   ```sh
+   sudo systemctl restart nginx
+   ```
+
+### Verificación
+
+1. **Crear un archivo PHP de prueba**:
+   ```sh
+   sudo nano /var/www/html/info.php
+   ```
+   - Añade el siguiente contenido:
+   ```php
+   <?php phpinfo(); ?>
+   ```
+
+2. **Acceder al archivo de prueba**:
+   - Abre tu navegador web e introduce `http://<tu_direccion_ip>/info.php`. Deberías ver la página de información de PHP.
+
