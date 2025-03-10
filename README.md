@@ -29,7 +29,9 @@ OPi Zero3 1.5gb-4g.
 
 4g.u-boot.bin: 4gb.u-boot.bin.
 
-https://github.com/leeboby/opizero3-uboot-kernel/blob/main/u-boot-sunxi-with-spl-opizero3-4gb.bin
+<a href="https://github.com/leeboby/opizero3-uboot-kernel/blob/main/sun50i-h616-orangepi-zero3-4gb.dtb"><img width="10%" src="img/boot.png"></a>
+
+
 
 4gb.dtb.: 4gb.dtb.
 
