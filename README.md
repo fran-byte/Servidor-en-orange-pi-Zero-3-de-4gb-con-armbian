@@ -5,7 +5,7 @@
 
 - Vamos a seguir los pasos correctos para preparar la tarjeta SD para tu Orange Pi Zero 3 con 4GB de RAM usando la imagen de Armbian y los archivos de U-Boot y DTB los podemmos encontar en los repositorios de armbian-images: 
 
-<a href="https://github.com/leeboby/armbian-images"><img width="5%" src="img/git.png"></a>
+<a href="https://github.com/leeboby/armbian-images"><img width="3%" src="img/git.png"></a>
 [armbian-images](https://github.com/leeboby/armbian-images)
 
 
