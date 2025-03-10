@@ -39,15 +39,6 @@ OPi Zero3 1.5gb-4g.
 
 
 
-
-### Resumen de los pasos a seguir:
-
-1. **Descomprimir la imagen `.xz`**.
-2. **Grabar la imagen en la tarjeta SD**.
-3. **Montar la tarjeta SD y copiar los archivos** de configuración.
-4. **Escribir el bootloader (`u-boot`)** en la tarjeta SD.
-5. **Desmontar y poner la tarjeta SD en la Orange Pi Zero 3**.
-
 ### Paso 1: Descomprimir la imagen `.xz`
 
 Tienes la imagen comprimida **`Armbian_23.08.0-trunk_Orangepizero3_bookworm_current_6.1.31-1GB-2GB.img.xz`**, así que primero debes descomprimirla:
