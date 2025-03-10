@@ -20,8 +20,8 @@ Vamos a seguir los pasos correctos para preparar la tarjeta SD para tu Orange Pi
 # Descargar la imagen:
 oizero3 1GB2GB. 	Servidor de debian12
 
-<p align="center" width="100%"><a href="https://github.com/leeboby/armbian-images/releases/download/opizero3/Armbian_23.08.0-trunk_Orangepizero3_bookworm_current_6.1.31-1GB-2GB.img.xz
-"><img width="10%" src="img/iso.png"></a></p>
+<a href="https://github.com/leeboby/armbian-images/releases/download/opizero3/Armbian_23.08.0-trunk_Orangepizero3_bookworm_current_6.1.31-1GB-2GB.img.xz
+"><img width="10%" src="img/iso.png"></a>
 
 
 # Descargar los archivos archivos necesarios para instalar un bootloader y el árbol de dispositivos (DTB) :
