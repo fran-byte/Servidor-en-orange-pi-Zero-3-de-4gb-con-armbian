@@ -101,7 +101,7 @@ Una vez que hayas copiado los archivos y actualizado el bootloader:
 
 2. **Coloca la tarjeta SD en tu Orange Pi Zero 3** y enciéndelo.
 
-¡Listo! Ahora deberías poder arrancar tu **Orange Pi Zero 3** con **4GB de RAM** utilizando la imagen de Armbian y los archivos de configuración correctos para **4GB de RAM**.
+Ahora deberías poder arrancar tu **Orange Pi Zero 3** utilizando la imagen de **Armbian** y los archivos de configuración correctos para **4GB de RAM**.
 
 
 # Arrancando el sistema
