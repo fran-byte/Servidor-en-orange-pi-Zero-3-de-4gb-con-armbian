@@ -2,11 +2,18 @@
 Instalación de pequeño servidor Nginx en una Orange pi Zero 3 de 4gb
 
 Vamos a seguir los pasos correctos para preparar la tarjeta SD para tu Orange Pi Zero 3 con 4GB de RAM usando la imagen de Armbian y los archivos de U-Boot y DTB los podemmos encontar en los repositorios de armbian-images: https://github.com/leeboby/armbian-images
-- Donde dentro de armbian tienes estas 4 imagenes para:
-- Ubuntu con xfce o Ubuntu server
-- Debian con xfce o Debian server
 
-  - Además de el bootloader tanto para versiones de (1.5Gb a 3Gb) o de 4Gb
+### Donde dentro de armbian tienes estas 4 imagenes para:
+
+- Ubuntu con xfce
+- Ubuntu server
+- Debian con xfce
+- Debian server
+
+  ### Además de el bootloader tanto para versiones
+
+  - 1.5Gb a 3Gb
+  - 4Gb
   
 # Descargar la imagen:
 oizero3 1GB2GB. 	Servidor de debian12  https://github.com/leeboby/armbian-images/releases/download/opizero3/Armbian_23.08.0-trunk_Orangepizero3_bookworm_current_6.1.31-1GB-2GB.img.xz
