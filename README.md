@@ -1,5 +1,5 @@
-# Servidor en orange pi Zero 3 de 4gb con armbian (in progress...)
-Instalación de pequeño servidor Nginx en una Orange pi Zero 3 de 4gb
+# Servidor en orange pi Zero 3 (4gb) con armbian (in progress...)
+- Instalación de un pequeño servidor Nginx en una Orange pi Zero 3 (en nuestro caso de 4gb)
 
 <p align="center" width="100%"><a><img width="100%" src="img/opiz3.jpg"></a></p>
 
