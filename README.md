@@ -113,8 +113,8 @@ Ahora deberías poder arrancar tu **Orange Pi Zero 3** utilizando la imagen de *
 ### **1. Configurar la conexión de red (Wi-Fi o Ethernet)**
 - **Si usas Ethernet**: Conecta la Orange Pi a tu router con un cable. Obtendrá IP automáticamente (DHCP).
 - **Si usas Wi-Fi**:
-  1. Inserta la tarjeta microSD en tu computadora.
-  2. En la partición `boot` (primera partición), crea un archivo llamado `wpa_supplicant.conf` con este contenido:
+  1.  Inserta la tarjeta microSD en tu computadora.
+  2.  En la partición `boot` (primera partición), crea un archivo llamado `wpa_supplicant.conf` con este contenido:
      ```conf
      ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
      update_config=1
@@ -126,7 +126,7 @@ Ahora deberías poder arrancar tu **Orange Pi Zero 3** utilizando la imagen de *
          key_mgmt=WPA-PSK
      }
      ```
-  3. Guarda el archivo y extrae la tarjeta SD.
+  3.  Guarda el archivo y extrae la tarjeta SD.
 
 ---
 
