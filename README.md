@@ -10,10 +10,10 @@ Vamos a seguir los pasos correctos para preparar la tarjeta SD para tu Orange Pi
 - Debian con xfce
 - Debian server
 
-  ### Además de el bootloader tanto para versiones
+### Además de el bootloader tanto para versiones
 
-  - 1.5Gb a 3Gb
-  - 4Gb
+- 1.5Gb a 3Gb
+- 4Gb
   
 # Descargar la imagen:
 oizero3 1GB2GB. 	Servidor de debian12  https://github.com/leeboby/armbian-images/releases/download/opizero3/Armbian_23.08.0-trunk_Orangepizero3_bookworm_current_6.1.31-1GB-2GB.img.xz
