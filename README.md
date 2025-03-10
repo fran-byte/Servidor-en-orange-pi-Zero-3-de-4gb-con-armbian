@@ -11,9 +11,9 @@
 
 ### Dentro de armbian tienes estas 4 imagenes para:
 
-- Ubuntu con xfce
+- Ubuntu con escritorio xfce
 - Ubuntu server
-- Debian con xfce
+- Debian con escritorio xfce
 - Debian server
 
 ### Además de el bootloader y el árbol de dispositivos (DTB) para versiones:
