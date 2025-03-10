@@ -28,7 +28,7 @@ oizero3 1GB2GB. 	Servidor de debian12
 "><img width="10%" src="img/iso.png"></a>
 
 
-# Descargar los archivos archivos necesarios para instalar un bootloader y el árbol de dispositivos (DTB) :
+# Descargar los archivos archivos necesarios para instalar un bootloader y el árbol de dispositivos (DTB) en nuestro caso la version de 4Gb :
 OPi Zero3 1.5gb-4g.
 
 4g.u-boot.bin: 4gb.u-boot.bin.
