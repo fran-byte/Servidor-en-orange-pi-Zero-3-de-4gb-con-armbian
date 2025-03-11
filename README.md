@@ -232,7 +232,7 @@ Ahora deberías poder arrancar tu **Orange Pi Zero 3** utilizando la imagen de *
 
 ### NOTA:
 
-- Si solo vas a alojar una pequeña web HTML. MariaDB es una base de datos y se utiliza principalmente cuando necesitas almacenar y gestionar datos dinámicos. Si tu sitio web es estático y solo contiene archivos HTML, CSS y JavaScript, Nginx por sí solo es más quesuficiente.
+- Si solo vas a alojar una pequeña web HTML. MariaDB es una base de datos y se utiliza principalmente cuando necesitas almacenar y gestionar datos dinámicos. Si tu sitio web es estático y solo contiene archivos HTML, CSS y JavaScript, Nginx por sí solo es más que suficiente.
 
 1. **Instalar MariaDB**:
    ```sh
