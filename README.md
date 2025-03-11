@@ -288,6 +288,7 @@ Ahora deberías poder arrancar tu **Orange Pi Zero 3** utilizando la imagen de *
    ```
 
 2. **Acceder al archivo de prueba**:
+   
    - Abre tu navegador web e introduce `http://<tu_direccion_ip>/info.php`. Deberías ver la página de información de PHP.
 
 
@@ -299,27 +300,49 @@ Ahora deberías poder arrancar tu **Orange Pi Zero 3** utilizando la imagen de *
 
 ### **1. SSH Hardening (Primer Paso)**
 
+-  Ayuda a evitar ataques automatizados que buscan el puerto 22.
+  
+-  No permitir el acceso directo como root mejora la seguridad.
+  
+-  Utiliza claves SSH en lugar de contraseñas para mayor seguridad.
+  
 ```bash
 sudo nano /etc/ssh/sshd_config
 ```
 - Cambia `Port 22` → `Port 2222`
+
 - `PermitRootLogin no`
+
 - `PasswordAuthentication no`
 
 ### **2. Firewall Estricto**
+
+- **Denegar todas las conexiones entrantes**: Esta regla asegura que solo las conexiones explícitamente permitidas puedan acceder al servidor.
+  
+- **Permitir conexiones SSH desde la LAN**: Permite conexiones SSH solo desde la red local (por ejemplo, 192.168.1.0/24) al puerto 2222
+
 ```bash
 sudo ufw default deny incoming
 sudo ufw allow proto tcp from 192.168.1.0/24 to any port 2222  # Solo LAN
-sudo ufw enable
+sudo ufw enable # Habilitamos para que aplicar las reglas.
 ```
 
 ### **3. Instalación Nginx + SSL**
+
+- Certbot es una herramienta para obtener certificados SSL de Let's Encrypt.
+  
+- Configurar SSL: Certbot configurará automáticamente Nginx para usar SSL con tu dominio.
+
+  
 ```bash
 sudo apt install nginx certbot python3-certbot-nginx
 sudo certbot --nginx -d tu-dominio.com
 ```
 
 ### **4. Hardening de Nginx**
+
+- Configurar SSL y HTTP/2: Mejora la seguridad y rendimiento.
+  
 ```nginx
 # En /etc/nginx/nginx.conf
 server {
@@ -330,11 +353,17 @@ server {
 ```
 
 ### **5. Protección contra Ataques**
+
+- Instalar Fail2ban: Fail2ban ayuda a proteger contra ataques de fuerza bruta.
+  
 ```bash
 # Instalar fail2ban
 sudo apt install fail2ban
 sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 ```
+
+- Habilitar protección para SSH: Configura Fail2ban para monitorear el puerto 2222 y bloquear IPs después de 3 intentos fallidos.
+  
 ```ini
 # En jail.local
 [sshd]
