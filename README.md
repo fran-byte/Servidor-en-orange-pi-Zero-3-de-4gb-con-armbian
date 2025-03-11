@@ -417,6 +417,7 @@ sudo ufw limit ssh/tcp
 Esto ayuda a prevenir ataques de fuerza bruta en SSH.
 
 **Bloqueo de IPs Maliciosas**
+Ejemplo de bloqueo de ip (black list)
 ```bash
 sudo ufw deny from 192.168.1.100
 ```
