@@ -290,179 +290,55 @@ Ahora deberías poder arrancar tu **Orange Pi Zero 3** utilizando la imagen de *
 2. **Acceder al archivo de prueba**:
    - Abre tu navegador web e introduce `http://<tu_direccion_ip>/info.php`. Deberías ver la página de información de PHP.
 
+
+
+
 # Implementación de Seguridad
 
+# Configuración Segura desde el Primer Boot
 
+### **1. SSH Hardening (Primer Paso)**
 
-### **1. Despues de la instalación de Ngnix y MariaDb**
-
-
-### **2. Certificado SSL**
-Utiliza Let's Encrypt para obtener un certificado SSL gratuito:
 ```bash
-sudo apt install certbot python3-certbot-nginx
-sudo certbot --nginx
+sudo nano /etc/ssh/sshd_config
 ```
-Esto configurará automáticamente Nginx para usar SSL.
+- Cambia `Port 22` → `Port 2222`
+- `PermitRootLogin no`
+- `PasswordAuthentication no`
 
-### **3. Configuración de Seguridad en Nginx**
-Edita el archivo de configuración de Nginx:
+### **2. Firewall Estricto**
 ```bash
-sudo nano /etc/nginx/nginx.conf
+sudo ufw default deny incoming
+sudo ufw allow proto tcp from 192.168.1.0/24 to any port 2222  # Solo LAN
+sudo ufw enable
 ```
-Añade o ajusta las siguientes directivas:
+
+### **3. Instalación Nginx + SSL**
+```bash
+sudo apt install nginx certbot python3-certbot-nginx
+sudo certbot --nginx -d tu-dominio.com
+```
+
+### **4. Hardening de Nginx**
 ```nginx
+# En /etc/nginx/nginx.conf
 server {
-    listen 443 ssl;
-    server_name tu_dominio.com;
-
-    ssl_certificate /etc/letsencrypt/live/tu_dominio.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/tu_dominio.com/privkey.pem;
-
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_prefer_server_ciphers on;
-    ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384';
-
-    add_header X-Content-Type-Options nosniff;
-    add_header X-Frame-Options DENY;
-    add_header X-XSS-Protection "1; mode=block";
+    listen 443 ssl http2;  # HTTP/2
+    ssl_ciphers 'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256...';
+    add_header Strict-Transport-Security "max-age=63072000; includeSubDomains";
 }
 ```
 
-#### **3.1. Limitación de Conexiones**
-Añade las siguientes directivas en el bloque `http` del archivo de configuración principal de Nginx:
-```nginx
-http {
-    limit_conn_zone $binary_remote_addr zone=addr:10m;
-
-    server {
-        location / {
-            limit_conn addr 10;
-        }
-    }
-}
-```
-- `limit_conn_zone $binary_remote_addr zone=addr:10m;` define una zona de memoria compartida llamada `addr` que almacena el estado de las conexiones.
-- `limit_conn addr 10;` limita el número de conexiones concurrentes desde una sola dirección IP a 10.
-
-#### **3.2. Configuración de Tiempos de Espera**
-Añade las siguientes directivas en el bloque `http` del archivo de configuración principal de Nginx:
-```nginx
-http {
-    client_body_timeout 10;
-    client_header_timeout 10;
-    keepalive_timeout 5 5;
-    send_timeout 10;
-}
-```
-- `client_body_timeout 10;` establece el tiempo de espera para recibir el cuerpo de la solicitud del cliente.
-- `client_header_timeout 10;` establece el tiempo de espera para recibir los encabezados de la solicitud del cliente.
-- `keepalive_timeout 5 5;` establece el tiempo de espera para mantener las conexiones persistentes.
-- `send_timeout 10;` establece el tiempo de espera para enviar la respuesta al cliente.
-
-### **Guardar y Recargar la Configuración**
-Después de realizar estos cambios, guarda el archivo y recarga la configuración de Nginx:
+### **5. Protección contra Ataques**
 ```bash
-sudo nginx -t
-sudo systemctl reload nginx
+# Instalar fail2ban
+sudo apt install fail2ban
+sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 ```
-- `sudo nginx -t` verifica la sintaxis de la configuración de Nginx.
-- `sudo systemctl reload nginx` recarga la configuración de Nginx sin interrumpir el servicio.
-
-### **4. Actualizaciones y Parches**
-Mantén tu sistema operativo y software actualizados para protegerte contra vulnerabilidades conocidas.
-
-### **5. Autenticación y Autorización**
-Implementa autenticación de dos factores (2FA) y utiliza contraseñas seguras.
-
-### **6. Firewall**
-Configura un firewall para limitar el acceso a tu servidor. UFW es una buena opción:
-
-#### **6.1. Instalación de UFW**
-```bash
-sudo apt update
-sudo apt install ufw
+```ini
+# En jail.local
+[sshd]
+enabled = true
+port = 2222
+maxretry = 3
 ```
-
-#### **6.2. Configuración Básica**
-Establece las políticas predeterminadas para denegar todas las conexiones entrantes y permitir todas las salientes:
-```bash
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-```
-
-**sudo ufw default deny incoming:** Esta regla deniega todas las conexiones entrantes por defecto. Esto es una medida de seguridad para asegurarse de que solo se permitan las conexiones específicas que tú autorices.
-
-**sudo ufw default allow outgoing**: Esta regla permite todas las conexiones salientes, lo que significa que tu servidor puede comunicarse libremente con otros servidores y servicios.
-
-#### **6.3. Permitir Conexiones Necesarias**
-Permite el tráfico HTTP y HTTPS para tu servidor web:
-```bash
-sudo ufw allow 'Nginx Full'
-```
-Esto abrirá los puertos 80 (HTTP) y 443 (HTTPS).
-
-#### **6.4. Permitir Conexiones SSH**
-Si necesitas acceso SSH, permite el tráfico en el puerto 22:
-Aunque como es el puerto por defecto, es aconsejable cambiarlo a uno diferente
-```bash
-sudo ufw allow ssh
-```
-
-#### **6.5. Protección Contra Ataques**
-**Limitación de Conexiones**
-```bash
-sudo ufw limit ssh/tcp
-```
-Esto ayuda a prevenir ataques de fuerza bruta en SSH.
-
-**Bloqueo de IPs Maliciosas**
-Ejemplo de bloqueo de ip (black list)
-```bash
-sudo ufw deny from 192.168.1.100
-```
-
-#### **6.6. Configuración de IPv6**
-Si usas IPv6, asegúrate de que UFW esté configurado para manejarlo:
-```bash
-sudo nano /etc/default/ufw
-```
-Asegúrate de que la línea `IPV6=yes` esté presente.
-
-### **7. Monitoreo y Auditoría**
-Revisa el estado de UFW y las reglas activas:
-```bash
-sudo ufw status verbose
-```
-
-### **8. Activar UFW**
-Finalmente, activa UFW para aplicar todas las reglas:
-```bash
-sudo ufw enable
-```
-
-### **Ejemplo Completo**
-```bash
-sudo apt update
-sudo apt install ufw
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw allow 'Nginx Full'
-sudo ufw allow ssh
-sudo ufw limit ssh/tcp
-sudo ufw deny from 192.168.1.100  # Ejemplo de filtro de ip (black list)
-sudo nano /etc/default/ufw  # Asegúrate de que IPV6=yes esté presente
-sudo ufw enable
-sudo ufw status verbose
-```
-
-### **9. Monitoreo y Auditoría**
-Realiza auditorías de seguridad periódicas y monitorea los logs de Nginx para detectar actividades sospechosas.
-
-### **10. Copias de Seguridad**
-Realiza copias de seguridad regulares de tus datos para poder recuperarlos en caso de un ataque.
-
-### **11. Protección contra DDoS**
-Utiliza servicios especializados para protegerte contra ataques de denegación de servicio (DDoS).
-
-
