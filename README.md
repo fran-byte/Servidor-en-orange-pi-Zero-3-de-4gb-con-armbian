@@ -292,13 +292,10 @@ Ahora deberías poder arrancar tu **Orange Pi Zero 3** utilizando la imagen de *
 
 # Implementación de Seguridad
 
-Tu guía es un excelente comienzo. Aquí tienes algunas sugerencias para mejorarla y asegurar tu servidor web en la Orange Pi Zero 3:
 
-### **1. Instalación de Nginx**
-```bash
-sudo apt update
-sudo apt install nginx
-```
+
+### **1. Despues de la instalación de Ngnix y MariaDb**
+
 
 ### **2. Certificado SSL**
 Utiliza Let's Encrypt para obtener un certificado SSL gratuito:
