@@ -296,78 +296,120 @@ Ahora deberías poder arrancar tu **Orange Pi Zero 3** utilizando la imagen de *
 
 # Implementación de Seguridad
 
-# Configuración Segura desde el Primer Boot
+### **1. SSH Hardening (Ampliado)**
 
-### **1. SSH Hardening (Primer Paso)**
+- **Cambio de Puerto (Security through Obscurity)**:  
+  - El cambio de puerto dificulta ataques automatizados, pero no reemplaza medidas sólidas como el uso de claves SSH.  
+  ```bash
+  sudo nano /etc/ssh/sshd_config
+  # Cambiar: Port 22 → Port 2222
+  ```
 
--  Ayuda a evitar ataques automatizados que buscan el puerto 22.
-  
--  No permitir el acceso directo como root mejora la seguridad.
-  
--  Utiliza claves SSH en lugar de contraseñas para mayor seguridad.
-  
-```bash
-sudo nano /etc/ssh/sshd_config
-```
-- Cambia `Port 22` → `Port 2222`
+- **Deshabilitar Acceso Root y Autenticación por Contraseña**:  
+  - **IMPORTANTE**: Configurar claves SSH antes de desactivar la autenticación por contraseña para evitar bloqueos.  
+  ```bash
+  PermitRootLogin no              # Bloquea acceso directo como root
+  PasswordAuthentication no       # Obliga uso de claves SSH
+  ```
 
-- `PermitRootLogin no`
+- **Crear Usuario no Root con Sudo**:  
+  ```bash
+  adduser tu_usuario
+  usermod -aG sudo tu_usuario
+  ```
 
-- `PasswordAuthentication no`
+---
 
-### **2. Firewall Estricto**
+### **2. Firewall (UFW - Reglas Detalladas)**
 
-- **Denegar todas las conexiones entrantes**: Esta regla asegura que solo las conexiones explícitamente permitidas puedan acceder al servidor.
-  
-- **Permitir conexiones SSH desde la LAN**: Permite conexiones SSH solo desde la red local (por ejemplo, 192.168.1.0/24) al puerto 2222
+- **Permitir Tráfico Esencial**:  
+  - Asegurar acceso SSH (puerto 2222) desde la LAN y HTTPS (puerto 443) desde cualquier origen.  
+  ```bash
+  sudo ufw default deny incoming
+  sudo ufw allow proto tcp from 192.168.1.0/24 to any port 2222  # SSH solo desde LAN
+  sudo ufw allow 443/tcp                                          # HTTPS público
+  sudo ufw enable
+  ```
 
-```bash
-sudo ufw default deny incoming
-sudo ufw allow proto tcp from 192.168.1.0/24 to any port 2222  # Solo LAN
-sudo ufw enable # Habilitamos para que aplicar las reglas.
-```
+- **Nota**:  
+  - Reemplazar `192.168.1.0/24` por la subred local del usuario.  
 
-### **3. Instalación Nginx + SSL**
+---
 
-- Certbot es una herramienta para obtener certificados SSL de Let's Encrypt.
-  
-- Configurar SSL: Certbot configurará automáticamente Nginx para usar SSL con tu dominio.
+### **3. Instalación Nginx + SSL (Certificados Automáticos)**
 
-  
-```bash
-sudo apt install nginx certbot python3-certbot-nginx
-sudo certbot --nginx -d tu-dominio.com
-```
+- **Configurar Dominio y Renovación Automática**:  
+  - Usar Certbot para obtener certificados SSL y configurar renovación automática.  
+  ```bash
+  sudo certbot --nginx -d tu-dominio.com
+  sudo certbot renew --dry-run     # Verificar renovación automática
+  ```
 
-### **4. Hardening de Nginx**
+---
 
-- Configurar SSL y HTTP/2: Mejora la seguridad y rendimiento.
-  
-```nginx
-# En /etc/nginx/nginx.conf
-server {
-    listen 443 ssl http2;  # HTTP/2
-    ssl_ciphers 'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256...';
-    add_header Strict-Transport-Security "max-age=63072000; includeSubDomains";
-}
-```
+### **4. Hardening de Nginx (Configuración Segura)**
 
-### **5. Protección contra Ataques**
+- **Cifrados Modernos y Headers de Seguridad**:  
+  - Usar recomendaciones actualizadas de Mozilla SSL Configuration Generator.  
+  ```nginx
+  # En /etc/nginx/nginx.conf
+  ssl_ciphers 'TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:ECDHE-ECDSA-AES128-GCM-SHA256';
+  ssl_prefer_server_ciphers on;
+  add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
+  add_header X-Content-Type-Options nosniff;
+  add_header X-Frame-Options DENY;
+  ```
 
-- Instalar Fail2ban: Ayuda a proteger contra ataques de fuerza bruta.
-  
-```bash
-# Instalar fail2ban
-sudo apt install fail2ban
-sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-```
+---
 
-- Habilitar protección para SSH: Configura Fail2ban para monitorear el puerto 2222 y bloquear IPs después de 3 intentos fallidos.
-  
-```ini
-# En jail.local
-[sshd]
-enabled = true
-port = 2222
-maxretry = 3
-```
+### **5. Fail2ban (Protección contra Fuerza Bruta)**
+
+- **Configuración Detallada**:  
+  - Aumentar tiempo de bloqueo y monitorear intentos fallidos.  
+  ```ini
+  # /etc/fail2ban/jail.local
+  [sshd]
+  enabled = true
+  port = 2222                    # Coincide con puerto SSH
+  maxretry = 3                   # Intentos antes de bloquear
+  bantime = 1h                   # Duración del bloqueo
+  findtime = 10m                 # Ventana temporal para maxretry
+  ```
+
+- **Habilitar Servicio**:  
+  ```bash
+  sudo systemctl enable fail2ban && sudo systemctl restart fail2ban
+  ```
+
+---
+
+### **6. Actualizaciones Automáticas (Critical)**
+
+- **Habilitar `unattended-upgrades`**:  
+  ```bash
+  sudo apt install unattended-upgrades
+  sudo dpkg-reconfigure unattended-upgrades  # Seleccionar "Yes"
+  ```
+
+---
+
+### **7. Auditoría de Servicios**
+
+- **Deshabilitar Servicios Innecesarios**:  
+  - Reducir superficie de ataque desactivando servicios no usados (ej: Bluetooth, avahi-daemon).  
+  ```bash
+  sudo systemctl disable bluetooth.service
+  sudo systemctl disable avahi-daemon.service
+  ```
+
+---
+
+### **8. Monitorización y Logs**
+
+- **Instalar `logwatch` para Análisis de Logs**:  
+  ```bash
+  sudo apt install logwatch
+  # Configurar informe diario por correo (opcional)
+  ```
+
+---
