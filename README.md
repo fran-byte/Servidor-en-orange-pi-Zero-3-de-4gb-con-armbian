@@ -404,6 +404,7 @@ Esto abrirá los puertos 80 (HTTP) y 443 (HTTPS).
 
 #### **6.4. Permitir Conexiones SSH**
 Si necesitas acceso SSH, permite el tráfico en el puerto 22:
+Aunque como es el puerto por defecto, es aconsejable cambiarlo a uno diferente
 ```bash
 sudo ufw allow ssh
 ```
