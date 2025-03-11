@@ -444,7 +444,7 @@ sudo ufw default allow outgoing
 sudo ufw allow 'Nginx Full'
 sudo ufw allow ssh
 sudo ufw limit ssh/tcp
-sudo ufw deny from 192.168.1.100
+sudo ufw deny from 192.168.1.100  # Ejemplo de filtro de ip (black list)
 sudo nano /etc/default/ufw  # Asegúrate de que IPV6=yes esté presente
 sudo ufw enable
 sudo ufw status verbose
