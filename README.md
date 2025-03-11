@@ -390,6 +390,8 @@ Establece las políticas predeterminadas para denegar todas las conexiones entra
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 ```
+**sudo ufw default deny incoming:** Esta regla deniega todas las conexiones entrantes por defecto. Esto es una medida de seguridad para asegurarse de que solo se permitan las conexiones específicas que tú autorices.
+**sudo ufw default allow outgoing**: Esta regla permite todas las conexiones salientes, lo que significa que tu servidor puede comunicarse libremente con otros servidores y servicios.
 
 #### **6.3. Permitir Conexiones Necesarias**
 Permite el tráfico HTTP y HTTPS para tu servidor web:
