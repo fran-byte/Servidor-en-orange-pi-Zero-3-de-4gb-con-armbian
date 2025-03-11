@@ -300,7 +300,7 @@ Ahora deberías poder arrancar tu **Orange Pi Zero 3** utilizando la imagen de *
 
 # Implementación de Seguridad
 
-### **1. SSH Hardening (Ampliado)**
+### **1. SSH Hardening**
 
 - **Cambio de Puerto (Security through Obscurity)**:  
   - El cambio de puerto dificulta ataques automatizados, pero no reemplaza medidas sólidas como el uso de claves SSH.  
