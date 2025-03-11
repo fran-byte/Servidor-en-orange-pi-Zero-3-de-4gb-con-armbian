@@ -1,6 +1,6 @@
-# Servidor en ORANGE Pi Zero 3 (4gb) con armbian (in progress...)
+# Servidor en ORANGE Pi Zero 3 (4gb) (in progress...)
 
-# Con algunos problemas, de momento sin poder solucionar, conflictos con uwf y iptables y el kernel
+# Con algunos problemas, con armbian de momento sin poder solucionar, conflictos con uwf y iptables y el kernel
 
 # Probablemente migre a DietPi
 
