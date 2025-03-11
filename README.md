@@ -354,7 +354,7 @@ server {
 
 ### **5. Protección contra Ataques**
 
-- Instalar Fail2ban: Fail2ban ayuda a proteger contra ataques de fuerza bruta.
+- Instalar Fail2ban: Ayuda a proteger contra ataques de fuerza bruta.
   
 ```bash
 # Instalar fail2ban
