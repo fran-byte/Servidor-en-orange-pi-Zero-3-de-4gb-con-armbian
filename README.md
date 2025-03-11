@@ -324,7 +324,7 @@ Ahora deberías poder arrancar tu **Orange Pi Zero 3** utilizando la imagen de *
 
 ---
 
-### **2. Firewall (UFW - Reglas Detalladas)**
+### **2. Firewall (UFW)**
 
 - **Permitir Tráfico Esencial**:  
   - Asegurar acceso SSH (puerto 2222) desde la LAN y HTTPS (puerto 443) desde cualquier origen.  
